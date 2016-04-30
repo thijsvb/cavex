@@ -1,11 +1,10 @@
 int n;
 boolean[] convex;
-PShape s;
 
-void makeShape() {
-  s.beginShape();
-  s.noFill();
-  s.stroke(255);
+void drawPoly() {
+  beginShape();
+  noFill();
+  stroke(255);
   for (int i=0; i!=n; ++i) {
     float a = i*TWO_PI/n;
     float r;
@@ -14,17 +13,15 @@ void makeShape() {
     } else {
       r = 30;
     }
-    s.vertex(cos(a)*r, sin(a)*r);
+    vertex(cos(a)*r, sin(a)*r);
   }
-  s.endShape(CLOSE);
+  endShape(CLOSE);
 }
 
 void setup() {
   size(600, 600);
   n = 6;
   convex = new boolean[n];
-  s = createShape();
-  makeShape();
 }
 
 void draw() {
@@ -39,5 +36,5 @@ void draw() {
     float a = i*TWO_PI/n;
     line(0, 0, cos(a)*width/2, sin(a)*width/2);
   }
-  shape(s);
+  drawPoly();
 }
