@@ -9,19 +9,23 @@ void setup() {
   size(600, 600);
   n = 6;
   convex = new boolean[n];
+  for (int i=0; i!=n; ++i) {
+    convex[i] = true;
+  }
   mouseOver = new boolean[n];
   levelScore = 0;
   killScore = 0;
   for (int i=0; i!=4; ++i) {
     float g = random(3);
     float m = random(5);
-    ships[i] = new ship((int)(random(1, n)), g>=2, m>=4, width/2 + i*width/4);
+    ships[i] = new ship((int)(random(1, n)), g>=2, m>=4, width/2 + i*width/3);
   }
 }
 
 void draw() {
   translate(width/2, height/2);
   background(32);
+  //Field
   fill(0);
   noStroke();
   ellipse(0, 0, width, width);
@@ -31,6 +35,9 @@ void draw() {
     line(0, 0, cos(a)*width/2, sin(a)*width/2);
   }
   noFill();
+  ellipse(0, 0, 60, 60);
+  ellipse(0, 0, 200, 200);
+  //Kill and level meters
   ellipse(-width/2+50, -width/2+50, 80, 80);
   ellipse(width/2-50, -width/2+50, 80, 80);
   noStroke();
@@ -38,7 +45,9 @@ void draw() {
   arc(-width/2+50, -width/2+50, 80, 80, -PI/2, killScore*TWO_PI/n - PI/2);
   fill(0, 255, 0);
   arc(width/2-50, -width/2+50, 80, 80, -PI/2, levelScore*TWO_PI/n - PI/2);
+  //Player
   drawPoly();
+  //Mouse indicators
   noStroke();
   fill(0, 255, 255, 128);
   for (int i=0; i!=n; ++i) {
@@ -49,9 +58,12 @@ void draw() {
       ellipse(cos(a)*30, sin(a)*30, 10, 10);
     }
   }
+  //Ships
   for (int i=0; i!=4; ++i) {
-    ships[i].display();
     ships[i].move();
+    if (ships[i].dist < width/2) {
+      ships[i].display();
+    }
   }
 }
 
@@ -76,7 +88,7 @@ void drawPoly() {
       r = 30;
     }
     vertex(cos(a)*r, sin(a)*r);
-    if (dist(cos(a)*r, sin(a)*r, mouseX-width/2, mouseY-height/2) <= 5) {
+    if (dist(cos(a)*r, sin(a)*r, mouseX-width/2, mouseY-height/2) <= 10) {
       mouseOver[i] = true;
     } else {
       mouseOver[i] = false;
