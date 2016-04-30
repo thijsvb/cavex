@@ -1,16 +1,16 @@
 int n;
 int levelScore;
 int killScore;
-boolean[] convex;
+boolean[] out;
 boolean[] mouseOver;
 ship[] ships = new ship[4];
 
 void setup() {
   size(600, 600);
   n = 6;
-  convex = new boolean[n];
+  out = new boolean[n];
   for (int i=0; i!=n; ++i) {
-    convex[i] = true;
+    out[i] = true;
   }
   mouseOver = new boolean[n];
   levelScore = 0;
@@ -52,9 +52,9 @@ void draw() {
   fill(0, 255, 255, 128);
   for (int i=0; i!=n; ++i) {
     float a = i*TWO_PI/n;
-    if (mouseOver[i] && convex[i]) {
+    if (mouseOver[i] && out[i]) {
       ellipse(cos(a)*100, sin(a)*100, 10, 10);
-    } else if (mouseOver[i] && !convex[i]) {
+    } else if (mouseOver[i] && !out[i]) {
       ellipse(cos(a)*30, sin(a)*30, 10, 10);
     }
   }
@@ -64,13 +64,48 @@ void draw() {
     if (ships[i].dist < width/2) {
       ships[i].display();
     }
+
+    if (ships[i].good && ships[i].dist <= 30) {
+      PVector a = new PVector(cos(ships[i].line*TWO_PI/n), sin(ships[i].line*TWO_PI/n));
+      if (out[ships[i].line]) {
+        a.setMag(100);
+      } else {
+        a.setMag(30);
+      }
+      PVector b = new PVector(cos(((ships[i].line+1)%n) *TWO_PI/n), sin(((ships[i].line+1)%n) *TWO_PI/n));
+      if (out[(ships[i].line+1)%n]) {
+        b.setMag(100);
+      } else {
+        b.setMag(30);
+      }
+      PVector c = new PVector(cos(((ships[i].line+5)%n) *TWO_PI/n), sin(((ships[i].line+5)%n) *TWO_PI/n));
+      if (out[(ships[i].line+5)%n]) {
+        c.setMag(100);
+      } else {
+        c.setMag(30);
+      }
+
+      PVector d = b.sub(a);
+      PVector e = c.sub(a);
+      if (PVector.angleBetween(d, e) < PI) {
+        if (ships[i].master) {
+          ++levelScore;
+        } else {
+          ++levelScore;
+        }
+      }
+
+      ships[i].reset();
+    }
+    if (!ships[i].good && ships[i].dist <= 100) {
+    }
   }
 }
 
 void mouseClicked() {
   for (int i=0; i!=n; ++i) {
     if (mouseOver[i]) {
-      convex[i] = !convex[i];
+      out[i] = !out[i];
     }
   }
 }
@@ -82,13 +117,13 @@ void drawPoly() {
   for (int i=0; i!=n; ++i) {
     float a = i*TWO_PI/n;
     float r;
-    if (convex[i]) {
+    if (out[i]) {
       r = 100;
     } else {
       r = 30;
     }
     vertex(cos(a)*r, sin(a)*r);
-    if (dist(cos(a)*r, sin(a)*r, mouseX-width/2, mouseY-height/2) <= 10) {
+    if (dist(cos(a)*r, sin(a)*r, mouseX-width/2, mouseY-height/2) <= 15) {
       mouseOver[i] = true;
     } else {
       mouseOver[i] = false;
@@ -136,5 +171,14 @@ class ship {
 
   void move() {
     dist -= 2;
+  }
+
+  void reset() {
+    float g = random(3);
+    float m = random(5);
+    line = (int)(random(1, n));
+    good = g>=2;
+    master = m>=4;
+    dist = width/2;
   }
 }
