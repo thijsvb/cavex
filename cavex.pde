@@ -64,7 +64,7 @@ void draw() {
     if (ships[i].dist < width/2) {
       ships[i].display();
     }
-
+    //Collision
     if (ships[i].good && ships[i].dist <= 30) {
       PVector a = new PVector(cos(ships[i].line*TWO_PI/n), sin(ships[i].line*TWO_PI/n));
       if (out[ships[i].line]) {
@@ -85,8 +85,10 @@ void draw() {
         c.setMag(30);
       }
 
-      PVector d = b.sub(a);
-      PVector e = c.sub(a);
+      PVector d;
+      d = PVector.sub(b, a);
+      PVector e;
+      e = PVector.sub(c, a);
       if (PVector.angleBetween(d, e) < PI) {
         if (ships[i].master) {
           ++levelScore;
