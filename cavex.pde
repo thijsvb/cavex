@@ -1,12 +1,22 @@
 int n;
+int levelScore;
+int killScore;
 boolean[] convex;
 boolean[] mouseOver;
+ship[] ships = new ship[4];
 
 void setup() {
   size(600, 600);
   n = 6;
   convex = new boolean[n];
   mouseOver = new boolean[n];
+  levelScore = 0;
+  killScore = 0;
+  for (int i=0; i!=4; ++i) {
+    float g = random(3);
+    float m = random(5);
+    ships[i] = new ship((int)(random(1, n)), g>=2, m>=4, width/2 + i*width/4);
+  }
 }
 
 void draw() {
@@ -20,9 +30,17 @@ void draw() {
     float a = i*TWO_PI/n;
     line(0, 0, cos(a)*width/2, sin(a)*width/2);
   }
+  noFill();
+  ellipse(-width/2+50, -width/2+50, 80, 80);
+  ellipse(width/2-50, -width/2+50, 80, 80);
+  noStroke();
+  fill(255, 0, 0);
+  arc(-width/2+50, -width/2+50, 80, 80, -PI/2, killScore*TWO_PI/n - PI/2);
+  fill(0, 255, 0);
+  arc(width/2-50, -width/2+50, 80, 80, -PI/2, levelScore*TWO_PI/n - PI/2);
   drawPoly();
   noStroke();
-  fill(0, 0, 255, 128);
+  fill(0, 255, 255, 128);
   for (int i=0; i!=n; ++i) {
     float a = i*TWO_PI/n;
     if (mouseOver[i] && convex[i]) {
@@ -30,6 +48,10 @@ void draw() {
     } else if (mouseOver[i] && !convex[i]) {
       ellipse(cos(a)*30, sin(a)*30, 10, 10);
     }
+  }
+  for (int i=0; i!=4; ++i) {
+    ships[i].display();
+    ships[i].move();
   }
 }
 
@@ -69,17 +91,17 @@ class ship {
   boolean master;
   float dist;
 
-  ship(int lineInput, boolean goodInput, boolean masterInput) {
+  ship(int lineInput, boolean goodInput, boolean masterInput, float distInput) {
     line = lineInput;
     good = goodInput;
     master = masterInput;
-    dist = width/2;
+    dist = distInput;
   }
 
   void display() {
     if (good) {
       if (master) {
-        noFill();
+        fill(0);
         stroke(0, 255, 0);
       } else {
         noStroke();
@@ -88,19 +110,19 @@ class ship {
       ellipse(cos(line*TWO_PI/n)*(dist+10), sin(line*TWO_PI/n)*(dist+10), 20, 20);
     } else {
       if (master) {
-        noFill();
+        fill(0);
         stroke(255, 0, 0);
       } else {
         noStroke();
         fill(255, 0, 0);
       }
       triangle(cos(line*TWO_PI/n)*dist, sin(line*TWO_PI/n)*dist, 
-        cos(line*TWO_PI/n)*(dist+30) + cos((line*TWO_PI/n)+PI/2)*20, sin(line*TWO_PI/n)*(dist+30) + sin((line*TWO_PI/n)+PI/2)*20, 
-        cos(line*TWO_PI/n)*(dist+30) + cos((line*TWO_PI/n)-PI/2)*20, sin(line*TWO_PI/n)*(dist+30) + sin((line*TWO_PI/n)-PI/2)*20);
+        cos(line*TWO_PI/n)*(dist+30) + cos((line*TWO_PI/n)+PI/2)*10, sin(line*TWO_PI/n)*(dist+30) + sin((line*TWO_PI/n)+PI/2)*10, 
+        cos(line*TWO_PI/n)*(dist+30) + cos((line*TWO_PI/n)-PI/2)*10, sin(line*TWO_PI/n)*(dist+30) + sin((line*TWO_PI/n)-PI/2)*10);
     }
   }
 
   void move() {
-    dist -= 5;
+    dist -= 2;
   }
 }
