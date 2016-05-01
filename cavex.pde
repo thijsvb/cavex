@@ -65,7 +65,11 @@ void draw() {
       ships[i].display();
     }
     //Collision
-    if (ships[i].good && ships[i].dist <= 30) {
+    if (ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //good ship at out vertex will never result in a point
+      ships[i].reset();
+    }
+
+    if (ships[i].good && ships[i].dist <= 30) {                          //good ship at in vertex will result in a point if the angle is concave
       PVector a = new PVector(cos(ships[i].line*TWO_PI/n), sin(ships[i].line*TWO_PI/n));
       if (out[ships[i].line]) {
         a.setMag(100);
@@ -91,7 +95,7 @@ void draw() {
       e = PVector.sub(c, a);
       if (realAngleBetween(d, e) < PI) {    //because PVector.angleBetween() always gives the smallest angle
         if (ships[i].master) {
-          ++levelScore;
+          levelScore = n;
         } else {
           ++levelScore;
         }
@@ -99,7 +103,44 @@ void draw() {
 
       ships[i].reset();
     }
-    if (!ships[i].good && ships[i].dist <= 100) {
+
+    if (!ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //bad ship at out vertex will never result in a kill point
+      ships[i].reset();
+    }
+
+    if (!ships[i].good && ships[i].dist <= 30) {      //bad ship at in vertex will only result in kill point if the angle is concave
+      PVector a = new PVector(cos(ships[i].line*TWO_PI/n), sin(ships[i].line*TWO_PI/n));
+      if (out[ships[i].line]) {
+        a.setMag(100);
+      } else {
+        a.setMag(30);
+      }
+      PVector b = new PVector(cos(((ships[i].line+1)%n) *TWO_PI/n), sin(((ships[i].line+1)%n) *TWO_PI/n));
+      if (out[(ships[i].line+1)%n]) {
+        b.setMag(100);
+      } else {
+        b.setMag(30);
+      }
+      PVector c = new PVector(cos(((ships[i].line+5)%n) *TWO_PI/n), sin(((ships[i].line+5)%n) *TWO_PI/n));
+      if (out[(ships[i].line+5)%n]) {
+        c.setMag(100);
+      } else {
+        c.setMag(30);
+      }
+
+      PVector d;
+      d = PVector.sub(b, a);
+      PVector e;
+      e = PVector.sub(c, a);
+      if (realAngleBetween(d, e) < PI) {    //because PVector.angleBetween() always gives the smallest angle
+        if (ships[i].master) {
+          killScore = n;
+        } else {
+          ++killScore;
+        }
+      }
+
+      ships[i].reset();
     }
   }
 }
