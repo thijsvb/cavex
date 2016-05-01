@@ -286,10 +286,15 @@ class ship {
 
   void reset(float d) {
     float g = random(3);
-    float m = random(5);
-    line = (int)(random(0, n));
     good = g>=2;
-    master = m>=4;
+    if (good) {
+      float m = random(15);
+      master = m>=14;
+    } else {
+      float m = random(3);
+      master = m>=2;
+    }
+    line = (int)(random(0, n));
     dist = d;
   }
 }
