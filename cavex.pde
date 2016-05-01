@@ -65,7 +65,11 @@ void draw() {
       ships[i].display();
     }
     //Collision
-    if (ships[i].good && ships[i].dist <= 30) {
+    if (ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //good ship at out vertex will never result in a point
+      resetShip(i);
+    }
+
+    if (ships[i].good && ships[i].dist <= 30) {                          //good ship at in vertex will result in a point if the angle is concave
       PVector a = new PVector(cos(ships[i].line*TWO_PI/n), sin(ships[i].line*TWO_PI/n));
       if (out[ships[i].line]) {
         a.setMag(100);
@@ -89,17 +93,54 @@ void draw() {
       d = PVector.sub(b, a);
       PVector e;
       e = PVector.sub(c, a);
-      if (PVector.angleBetween(d, e) < PI) {
+      if (realAngleBetween(d, e) < PI) {    //because PVector.angleBetween() always gives the smallest angle
         if (ships[i].master) {
-          ++levelScore;
+          levelScore = n;
         } else {
           ++levelScore;
         }
       }
 
-      ships[i].reset();
+      resetShip(i);
     }
-    if (!ships[i].good && ships[i].dist <= 100) {
+
+    if (!ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //bad ship at out vertex will never result in a kill point
+      resetShip(i);
+    }
+
+    if (!ships[i].good && ships[i].dist <= 30) {      //bad ship at in vertex will only result in kill point if the angle is concave
+      PVector a = new PVector(cos(ships[i].line*TWO_PI/n), sin(ships[i].line*TWO_PI/n));
+      if (out[ships[i].line]) {
+        a.setMag(100);
+      } else {
+        a.setMag(30);
+      }
+      PVector b = new PVector(cos(((ships[i].line+1)%n) *TWO_PI/n), sin(((ships[i].line+1)%n) *TWO_PI/n));
+      if (out[(ships[i].line+1)%n]) {
+        b.setMag(100);
+      } else {
+        b.setMag(30);
+      }
+      PVector c = new PVector(cos(((ships[i].line+5)%n) *TWO_PI/n), sin(((ships[i].line+5)%n) *TWO_PI/n));
+      if (out[(ships[i].line+5)%n]) {
+        c.setMag(100);
+      } else {
+        c.setMag(30);
+      }
+
+      PVector d;
+      d = PVector.sub(b, a);
+      PVector e;
+      e = PVector.sub(c, a);
+      if (realAngleBetween(d, e) < PI) {    //because PVector.angleBetween() always gives the smallest angle
+        if (ships[i].master) {
+          killScore = n;
+        } else {
+          ++killScore;
+        }
+      }
+
+      resetShip(i);
     }
   }
 }
@@ -132,6 +173,46 @@ void drawPoly() {
     }
   }
   endShape(CLOSE);
+}
+
+float realAngleBetween(PVector a, PVector b) {
+  float aAngle = atan(a.y/a.x);
+  if (a.x<0 && a.y>0) {
+    aAngle=abs(aAngle+PI);
+  }
+  if (a.x<0 && a.y<0) {
+    aAngle+=PI;
+  }
+  if (a.x>0 && a.y<0) {
+    aAngle=abs(aAngle+TWO_PI);
+  }
+
+  float bAngle = atan(b.y/b.x);
+  if (b.x<0 && b.y>0) {
+    bAngle=abs(bAngle+PI);
+  }
+  if (b.x<0 && b.y<0) {
+    bAngle+=PI;
+  }
+  if (b.x>0 && b.y<0) {
+    bAngle=abs(bAngle+TWO_PI);
+  }
+
+  return (aAngle-bAngle+TWO_PI)%TWO_PI;
+}
+
+void resetShip(int s) {
+  float max = 0;
+  for (int i=0; i!=ships.length; ++i) {
+    if (i!=s && ships[i].dist > max) {
+      max = ships[i].dist;
+    }
+  }
+  if (max < width/2 - width/8) {
+    ships[s].reset(width/2);
+  } else {
+    ships[s].reset(max + width/8);
+  }
 }
 
 class ship {
@@ -175,12 +256,12 @@ class ship {
     dist -= 2;
   }
 
-  void reset() {
+  void reset(float d) {
     float g = random(3);
     float m = random(5);
     line = (int)(random(1, n));
     good = g>=2;
     master = m>=4;
-    dist = width/2;
+    dist = d;
   }
 }
