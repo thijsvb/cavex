@@ -9,6 +9,8 @@ ship[] ships = new ship[4];
 PImage robin;
 String typed = "";
 String ccKufi = "99991675117102105";
+boolean gDisk, bDisk;
+float gDiskO, bDiskO;
 
 void setup() {
   size(600, 600);
@@ -64,9 +66,28 @@ void draw() {
   text("lvl: " + nf(n-6), width/2-40, height/2-40);
   //Player
   drawPoly();
+  noStroke();
+  if (gDisk) {
+    if (gDiskO < 20) {
+      ++gDiskO;
+      fill(0, 255, 0, map(gDiskO, 0, 20, 255, 0));
+      ellipse(0, 0, 60, 60);
+    } else {
+      gDiskO = 0;
+      gDisk = false;
+    }
+  }
+  if (bDisk) {
+    if (bDiskO < 20) {
+      ++bDiskO;
+      fill(255, 0, 0, map(bDiskO, 0, 20, 255, 0));
+      ellipse(0, 0, 60, 60);
+    } else {
+      bDiskO = 0;
+      bDisk = false;
+    }
+  }
   //Mouse indicators
-  stroke(255);
-  text(typed, 0, 0);
   noStroke();
   fill(0, 255, 255, 128);
   for (int i=0; i!=n; ++i) {
@@ -118,6 +139,7 @@ void draw() {
         } else {
           ++levelScore;
         }
+        gDisk = true;
       }
 
       resetShip(i);
@@ -157,6 +179,7 @@ void draw() {
         } else {
           ++killScore;
         }
+        bDisk = true;
       }
 
       resetShip(i);
