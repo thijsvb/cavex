@@ -7,6 +7,8 @@ ship[] ships = new ship[4];
 
 void setup() {
   size(600, 600);
+  textAlign(CENTER, CENTER);
+  textSize(20);
   n = 6;
   out = new boolean[n];
   for (int i=0; i!=n; ++i) {
@@ -45,6 +47,9 @@ void draw() {
   arc(-width/2+50, -width/2+50, 80, 80, -PI/2, killScore*TWO_PI/n - PI/2);
   fill(0, 255, 0);
   arc(width/2-50, -width/2+50, 80, 80, -PI/2, levelScore*TWO_PI/n - PI/2);
+  //Level indicator
+  fill(255);
+  text("lvl: " + nf(n-6), width/2-40, height/2-40);
   //Player
   drawPoly();
   //Mouse indicators
