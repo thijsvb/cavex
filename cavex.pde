@@ -11,6 +11,9 @@ String typed = "";
 String ccKufi = "99991675117102105";
 boolean gDisk, bDisk;
 float gDiskO, bDiskO;
+int[] boomLine = {};
+float[] boomDist = {};
+float[] boomSize = {};
 
 void setup() {
   size(600, 600);
@@ -66,6 +69,7 @@ void draw() {
   text("lvl: " + nf(n-6), width/2-40, height/2-40);
   //Player
   drawPoly();
+  //Docking disks
   noStroke();
   if (gDisk) {
     if (gDiskO < 20) {
@@ -87,6 +91,20 @@ void draw() {
       bDisk = false;
     }
   }
+  //BOOMS!
+  fill(255, 192, 0);
+  stroke(255, 0, 0);
+  if (boomLine.length > 0) {
+    for (int i=0; i!=boomLine.length; ++i) {
+      boomSize[i]+=1.5;
+      ellipse(cos(boomLine[i]*TWO_PI/n)*boomDist[i], sin(boomLine[i]*TWO_PI/n)*boomDist[i], boomSize[i], boomSize[i]);
+    }
+    if (boomSize[0] >= 30) {
+      boomLine = subset(boomLine, 1);
+      boomDist = subset(boomDist, 1);
+      boomSize = subset(boomSize, 1);
+    }
+  }
   //Mouse indicators
   noStroke();
   fill(0, 255, 255, 128);
@@ -106,6 +124,9 @@ void draw() {
     }
     //Collision
     if (ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //good ship at out vertex will never result in a point
+      boomLine = append(boomLine, ships[i].line);
+      boomDist = append(boomDist, 100);
+      boomSize = append(boomSize, 0);
       resetShip(i);
     }
 
@@ -140,12 +161,19 @@ void draw() {
           ++levelScore;
         }
         gDisk = true;
+      } else {
+        boomLine = append(boomLine, ships[i].line);
+        boomDist = append(boomDist, 30);
+        boomSize = append(boomSize, 0);
       }
 
       resetShip(i);
     }
 
     if (!ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //bad ship at out vertex will never result in a kill point
+      boomLine = append(boomLine, ships[i].line);
+      boomDist = append(boomDist, 100);
+      boomSize = append(boomSize, 0);
       resetShip(i);
     }
 
@@ -180,6 +208,10 @@ void draw() {
           ++killScore;
         }
         bDisk = true;
+      } else {
+        boomLine = append(boomLine, ships[i].line);
+        boomDist = append(boomDist, 30);
+        boomSize = append(boomSize, 0);
       }
 
       resetShip(i);
