@@ -18,7 +18,7 @@ void setup() {
   for (int i=0; i!=4; ++i) {
     float g = random(3);
     float m = random(5);
-    ships[i] = new ship((int)(random(1, n)), g>=2, m>=4, width/2 + i*width/3);
+    ships[i] = new ship((int)(random(0, n)), g>=2, m>=4, width/2 + i*width/3);
   }
 }
 
@@ -82,8 +82,8 @@ void draw() {
       } else {
         b.setMag(30);
       }
-      PVector c = new PVector(cos(((ships[i].line+5)%n) *TWO_PI/n), sin(((ships[i].line+5)%n) *TWO_PI/n));
-      if (out[(ships[i].line+5)%n]) {
+      PVector c = new PVector(cos(((ships[i].line+(n-1))%n) *TWO_PI/n), sin(((ships[i].line+(n-1))%n) *TWO_PI/n));
+      if (out[(ships[i].line+(n-1))%n]) {
         c.setMag(100);
       } else {
         c.setMag(30);
@@ -93,6 +93,7 @@ void draw() {
       d = PVector.sub(b, a);
       PVector e;
       e = PVector.sub(c, a);
+      println(realAngleBetween(d, e));
       if (realAngleBetween(d, e) < PI) {    //because PVector.angleBetween() always gives the smallest angle
         if (ships[i].master) {
           levelScore = n;
@@ -121,8 +122,8 @@ void draw() {
       } else {
         b.setMag(30);
       }
-      PVector c = new PVector(cos(((ships[i].line+5)%n) *TWO_PI/n), sin(((ships[i].line+5)%n) *TWO_PI/n));
-      if (out[(ships[i].line+5)%n]) {
+      PVector c = new PVector(cos(((ships[i].line+(n-1))%n) *TWO_PI/n), sin(((ships[i].line+(n-1))%n) *TWO_PI/n));
+      if (out[(ships[i].line+(n-1))%n]) {
         c.setMag(100);
       } else {
         c.setMag(30);
@@ -166,6 +167,11 @@ void resetArrays() {
     out[i] = true;
   }
   mouseOver = new boolean[n];
+  for (int i=0; i!=ships.length; ++i) {
+    if (ships[i].line >= n) {
+      resetShip(i);
+    }
+  }
 }
 
 void mouseClicked() {
@@ -282,7 +288,7 @@ class ship {
   void reset(float d) {
     float g = random(3);
     float m = random(5);
-    line = (int)(random(1, n));
+    line = (int)(random(0, n));
     good = g>=2;
     master = m>=4;
     dist = d;
