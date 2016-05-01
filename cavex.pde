@@ -89,7 +89,7 @@ void draw() {
       d = PVector.sub(b, a);
       PVector e;
       e = PVector.sub(c, a);
-      if (PVector.angleBetween(d, e) < PI) {
+      if (realAngleBetween(d, e) < PI) {    //because PVector.angleBetween() always gives the smallest angle
         if (ships[i].master) {
           ++levelScore;
         } else {
@@ -132,6 +132,32 @@ void drawPoly() {
     }
   }
   endShape(CLOSE);
+}
+
+float realAngleBetween(PVector a, PVector b) {
+  float aAngle = atan(a.y/a.x);
+  if (a.x<0 && a.y>0) {
+    aAngle=abs(aAngle+PI);
+  }
+  if (a.x<0 && a.y<0) {
+    aAngle+=PI;
+  }
+  if (a.x>0 && a.y<0) {
+    aAngle=abs(aAngle+TWO_PI);
+  }
+
+  float bAngle = atan(b.y/b.x);
+  if (b.x<0 && b.y>0) {
+    bAngle=abs(bAngle+PI);
+  }
+  if (b.x<0 && b.y<0) {
+    bAngle+=PI;
+  }
+  if (b.x>0 && b.y<0) {
+    bAngle=abs(bAngle+TWO_PI);
+  }
+
+  return (aAngle-bAngle+TWO_PI)%TWO_PI;
 }
 
 class ship {
