@@ -14,11 +14,13 @@ float gDiskO, bDiskO;
 int[] boomLine = {};
 float[] boomDist = {};
 float[] boomSize = {};
+PFont f;
 
 void setup() {
   size(600, 600);
   textAlign(CENTER, CENTER);
-  textSize(20);
+  f = createFont("Trebuchet MS", 20);
+  textFont(f);
   robin = loadImage("robin.png");
   robin.resize(robin.width/2, robin.height/2);
   n = 6;
