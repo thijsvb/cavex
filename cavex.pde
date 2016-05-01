@@ -48,7 +48,7 @@ void draw() {
   fill(0);
   noStroke();
   ellipse(0, 0, width, width);
-  stroke(128);
+  stroke(32);
   for (int i=0; i!=n; ++i) {
     float a = i*TWO_PI/n;
     line(0, 0, cos(a)*width/2, sin(a)*width/2);
