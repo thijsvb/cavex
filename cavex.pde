@@ -143,6 +143,29 @@ void draw() {
       resetShip(i);
     }
   }
+
+  if (levelScore >= n) {
+    levelScore = 0;
+    ++n;
+    resetArrays();
+  }
+  if (killScore >= n) {
+    killScore = 0;
+    --n;
+    resetArrays();
+  }
+  if (n < 6) {
+    n = 6;
+    resetArrays();
+  }
+}
+
+void resetArrays() {
+  out = new boolean[n];
+  for (int i=0; i!=n; ++i) {
+    out[i] = true;
+  }
+  mouseOver = new boolean[n];
 }
 
 void mouseClicked() {
