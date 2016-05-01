@@ -1,14 +1,20 @@
+/* @pjs preload="robin.png"; */
+
 int n;
 int levelScore;
 int killScore;
 boolean[] out;
 boolean[] mouseOver;
 ship[] ships = new ship[4];
+PImage robin;
+String typed = "";
 
 void setup() {
   size(600, 600);
   textAlign(CENTER, CENTER);
   textSize(20);
+  robin = loadImage("robin.png");
+  robin.resize(robin.width/2, robin.height/2);
   n = 6;
   out = new boolean[n];
   for (int i=0; i!=n; ++i) {
@@ -27,6 +33,11 @@ void setup() {
 void draw() {
   translate(width/2, height/2);
   background(32);
+  if (n-6 == 17) {
+    cursor(robin, robin.width-10, 10);
+  } else {
+    cursor(CROSS);
+  }
   //Field
   fill(0);
   noStroke();
@@ -182,6 +193,23 @@ void mouseClicked() {
   for (int i=0; i!=n; ++i) {
     if (mouseOver[i]) {
       out[i] = !out[i];
+    }
+  }
+}
+
+void keyPressed() {
+  if (key == CODED) {
+    typed+=keyCode;
+  } else {
+    typed += key;
+  }
+  if (typed.length() == 8) {
+    if (typed.equals("cc16Kufi")) {
+      n = 23;
+      resetArrays();
+      typed = "";
+    } else {
+      typed = typed.substring(1);
     }
   }
 }
