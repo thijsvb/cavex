@@ -8,7 +8,7 @@ boolean[] mouseOver;
 ship[] ships = new ship[4];
 PImage robin;
 String typed = "";
-String ccKufi = "cc16Kufi";
+String ccKufi = "99991675117102105";
 
 void setup() {
   size(600, 600);
@@ -66,7 +66,7 @@ void draw() {
   drawPoly();
   //Mouse indicators
   stroke(255);
-  text(typed,0,0);
+  text(typed, 0, 0);
   noStroke();
   fill(0, 255, 255, 128);
   for (int i=0; i!=n; ++i) {
@@ -201,10 +201,13 @@ void mouseClicked() {
 }
 
 void keyPressed() {
+  String k = "";
   if (key == CODED) {
-    typed+=keyCode;
+    typed+=int(keyCode);
+    k += int(keyCode);
   } else {
-    typed += key;
+    k += int(key);
+    typed += int(key);
   }
   if (typed.length() >= ccKufi.length()) {
     if (typed.equals(ccKufi)) {
@@ -212,7 +215,7 @@ void keyPressed() {
       resetArrays();
       typed = "";
     } else {
-      typed = typed.substring(typed.length()-(ccKufi.length()-1));
+      typed = typed.substring(typed.length()-(ccKufi.length()-k.length()));
     }
   }
 }
