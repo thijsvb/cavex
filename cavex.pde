@@ -288,8 +288,8 @@ class ship {
     float g = random(3);
     good = g>=2;
     if (good) {
-      float m = random(15);
-      master = m>=14;
+      float m = random(30);
+      master = m>=29;
     } else {
       float m = random(3);
       master = m>=2;
