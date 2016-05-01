@@ -9,7 +9,7 @@ textAlign(CENTER);
 
 background(32);
 fill(255);
-text("cavex", 300, 40);
+text("cavex: a polygon game", 300, 40);
 textSize(20);
 text("Let green ships enter\nwith concave angles", width/4, 170);
 text("Keep red ships out\nwith convex angles", 3*width/4, 170);
