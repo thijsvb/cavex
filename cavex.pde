@@ -64,6 +64,8 @@ void draw() {
   //Player
   drawPoly();
   //Mouse indicators
+  stroke(255);
+  text(typed,0,0);
   noStroke();
   fill(0, 255, 255, 128);
   for (int i=0; i!=n; ++i) {
@@ -197,22 +199,21 @@ void mouseClicked() {
   }
 }
 
-void keyTyped() {
+void keyPressed() {
   if (key == CODED) {
     typed+=keyCode;
   } else {
     typed += key;
   }
-  if (typed.length() == 8) {
+  if (typed.length() >= 8) {
     if (typed.equals("cc16Kufi")) {
       n = 23;
       resetArrays();
       typed = "";
     } else {
-      typed = typed.substring(1);
+      typed = typed.substring(typed.length()-7);
     }
   }
-  println(typed);
 }
 
 void drawPoly() {
