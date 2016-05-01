@@ -93,7 +93,6 @@ void draw() {
       d = PVector.sub(b, a);
       PVector e;
       e = PVector.sub(c, a);
-      println(realAngleBetween(d, e));
       if (realAngleBetween(d, e) < PI) {    //because PVector.angleBetween() always gives the smallest angle
         if (ships[i].master) {
           levelScore = n;
