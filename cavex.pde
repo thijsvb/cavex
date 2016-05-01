@@ -212,6 +212,7 @@ void keyPressed() {
       typed = typed.substring(1);
     }
   }
+  println(typed);
 }
 
 void drawPoly() {
