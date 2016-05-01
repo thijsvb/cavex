@@ -8,6 +8,7 @@ boolean[] mouseOver;
 ship[] ships = new ship[4];
 PImage robin;
 String typed = "";
+String ccKufi = "cc16Kufi";
 
 void setup() {
   size(600, 600);
@@ -205,13 +206,13 @@ void keyPressed() {
   } else {
     typed += key;
   }
-  if (typed.length() >= 8) {
-    if (typed.equals("cc16Kufi")) {
+  if (typed.length() >= ccKufi.length()) {
+    if (typed.equals(ccKufi)) {
       n = 23;
       resetArrays();
       typed = "";
     } else {
-      typed = typed.substring(typed.length()-7);
+      typed = typed.substring(typed.length()-(ccKufi.length()-1));
     }
   }
 }
