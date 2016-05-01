@@ -197,7 +197,7 @@ void mouseClicked() {
   }
 }
 
-void keyPressed() {
+void keyTyped() {
   if (key == CODED) {
     typed+=keyCode;
   } else {
