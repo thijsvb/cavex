@@ -57,6 +57,7 @@ void draw() {
   ellipse(0, 0, 60, 60);
   ellipse(0, 0, 200, 200);
   //Kill and level meters
+  stroke(255);
   ellipse(-width/2+50, -width/2+50, 80, 80);
   ellipse(width/2-50, -width/2+50, 80, 80);
   noStroke();
