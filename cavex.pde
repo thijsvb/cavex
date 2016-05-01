@@ -66,7 +66,7 @@ void draw() {
     }
     //Collision
     if (ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //good ship at out vertex will never result in a point
-      ships[i].reset();
+      resetShip(i);
     }
 
     if (ships[i].good && ships[i].dist <= 30) {                          //good ship at in vertex will result in a point if the angle is concave
@@ -101,11 +101,11 @@ void draw() {
         }
       }
 
-      ships[i].reset();
+      resetShip(i);
     }
 
     if (!ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //bad ship at out vertex will never result in a kill point
-      ships[i].reset();
+      resetShip(i);
     }
 
     if (!ships[i].good && ships[i].dist <= 30) {      //bad ship at in vertex will only result in kill point if the angle is concave
@@ -140,7 +140,7 @@ void draw() {
         }
       }
 
-      ships[i].reset();
+      resetShip(i);
     }
   }
 }
@@ -201,6 +201,20 @@ float realAngleBetween(PVector a, PVector b) {
   return (aAngle-bAngle+TWO_PI)%TWO_PI;
 }
 
+void resetShip(int s) {
+  float max = 0;
+  for (int i=0; i!=ships.length; ++i) {
+    if (i!=s && ships[i].dist > max) {
+      max = ships[i].dist;
+    }
+  }
+  if (max < width/2 - width/8) {
+    ships[s].reset(width/2);
+  } else {
+    ships[s].reset(max + width/8);
+  }
+}
+
 class ship {
   int line;
   boolean good;
@@ -242,12 +256,12 @@ class ship {
     dist -= 2;
   }
 
-  void reset() {
+  void reset(float d) {
     float g = random(3);
     float m = random(5);
     line = (int)(random(1, n));
     good = g>=2;
     master = m>=4;
-    dist = width/2;
+    dist = d;
   }
 }
