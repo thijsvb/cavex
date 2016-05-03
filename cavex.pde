@@ -249,7 +249,7 @@ void resetArrays() {
   }
 }
 
-void mouseClicked() {
+void mousePressed() {
   for (int i=0; i!=n; ++i) {
     if (mouseOver[i]) {
       out[i] = !out[i];
@@ -290,7 +290,10 @@ void drawPoly() {
       r = 30;
     }
     vertex(cos(a)*r, sin(a)*r);
-    if (dist(cos(a)*r, sin(a)*r, mouseX-width/2, mouseY-height/2) <= 15) {
+    //Set mouseOver
+    PVector m = new PVector(mouseX-width/2, mouseY-width/2);
+    PVector v = new PVector(cos(a), sin(a));
+    if (m.mag() <= 300 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
       mouseOver[i] = true;
     } else {
       mouseOver[i] = false;
