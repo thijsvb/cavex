@@ -22,7 +22,6 @@ void setup() {
   f = createFont("Trebuchet MS", 20);
   textFont(f);
   robin = loadImage("robin.png");
-  robin.resize(robin.width/2, robin.height/2);
   n = 6;
   out = new boolean[n];
   for (int i=0; i!=n; ++i) {
