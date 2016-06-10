@@ -1,6 +1,6 @@
 #!/bin/bash
 myexe="./processing-3.1.1/processing-java"
-input_folder=../${PWD##*/}
+input_folder="cavex"
 output_folder=$input_folder"_output"
 
 if [ ! -e $myexe ]
