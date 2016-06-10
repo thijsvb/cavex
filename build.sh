@@ -1,6 +1,6 @@
 #!/bin/bash
 myexe="./processing-3.1.1/processing-java"
-input_folder=${PWD##*/}
+input_folder=../${PWD##*/}
 output_folder=$input_folder"_output"
 
 if [ ! -e $myexe ]
@@ -9,7 +9,7 @@ then
   exit 1
 fi
 
-if [ ! -e ../$input_folder ]
+if [ ! -e $input_folder ]
 then
   echo "Input folder '"$input_folder"' not found, line "$LINENO
   exit 1
@@ -26,8 +26,6 @@ then
   echo "Folder '"$output_folder"' could not be deleted, line "$LINENO
   exit 1
 fi
-
-cd ..
 
 $myexe --sketch=$input_folder --output=$output_folder --build > /dev/null
 
