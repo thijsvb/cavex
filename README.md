@@ -1,6 +1,8 @@
 # cavex
 ### A polygon game
 
+[![Build Status](https://travis-ci.org/thijsvb/cavex.svg?branch=master)](https://travis-ci.org/thijsvb/cavex)
+
 [Play it here!](https://thijsvb.github.io/cavex)
 
 ![cavex](guide/guide.png)
