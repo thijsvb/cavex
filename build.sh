@@ -27,7 +27,7 @@ then
   exit 1
 fi
 
-$myexe --sketch=../$input_folder --output=$output_folder --build #> /dev/null
+$myexe --sketch=$input_folder --output=$output_folder --build > /dev/null
 
 if [ -e $output_folder/$sketch_name.class ]
 then
@@ -36,5 +36,6 @@ then
   exit 0
 else
   echo "Build failed, line "$LINENO
+  echo $input_folder
   exit 1
 fi
