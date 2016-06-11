@@ -1,4 +1,4 @@
-/* @pjs preload="robin.png"; */
+/* @pjs preload="data/robin.png"; */
 
 int n;
 int levelScore;
@@ -21,7 +21,7 @@ void setup() {
   textAlign(CENTER, CENTER);
   f = createFont("Trebuchet MS", 20);
   textFont(f);
-  robin = loadImage("robin.png");
+  robin = loadImage("data/robin.png");
   n = 6;
   out = new boolean[n];
   for (int i=0; i!=n; ++i) {
@@ -290,17 +290,11 @@ void drawPoly() {
       r = 30;
     }
     vertex(cos(a)*r, sin(a)*r);
-<<<<<<< HEAD
+
     //Set mouseOver
     PVector m = new PVector(mouseX-width/2, mouseY-width/2);
     PVector v = new PVector(cos(a), sin(a));
     if (m.mag() <= 300 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
-=======
-                                                                                  //Set mouseOver
-    PVector m = new PVector(mouseX-width/2, mouseY-width/2);
-    PVector v = new PVector(cos(a), sin(a));
-    if (m.mag() <= 300 && (realAngleBetween(v,m) < PI/n || abs(realAngleBetween(v,m)-TWO_PI) < PI/n)){
->>>>>>> master
       mouseOver[i] = true;
     } else {
       mouseOver[i] = false;
