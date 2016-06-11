@@ -290,10 +290,17 @@ void drawPoly() {
       r = 30;
     }
     vertex(cos(a)*r, sin(a)*r);
+<<<<<<< HEAD
     //Set mouseOver
     PVector m = new PVector(mouseX-width/2, mouseY-width/2);
     PVector v = new PVector(cos(a), sin(a));
     if (m.mag() <= 300 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
+=======
+                                                                                  //Set mouseOver
+    PVector m = new PVector(mouseX-width/2, mouseY-width/2);
+    PVector v = new PVector(cos(a), sin(a));
+    if (m.mag() <= 300 && (realAngleBetween(v,m) < PI/n || abs(realAngleBetween(v,m)-TWO_PI) < PI/n)){
+>>>>>>> master
       mouseOver[i] = true;
     } else {
       mouseOver[i] = false;
