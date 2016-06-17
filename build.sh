@@ -1,6 +1,9 @@
+
 #!/bin/bash
+set -v
 myexe="./processing-3.1.1/processing-java"
-input_folder="../"${PWD##*/}
+input_folder=${PWD##} 
+sketch_name=${PWD##*/}
 output_folder=$input_folder"_output"
 
 if [ ! -e $myexe ]
@@ -27,7 +30,11 @@ then
   exit 1
 fi
 
-$myexe --sketch=$input_folder --output=$output_folder --build > /dev/null
+echo "myexe: "$myexe
+echo "input_folder: "$input_folder
+echo "output_folder: "$output_folder
+
+$myexe --sketch=$input_folder --output=$output_folder --build
 
 if [ -e $output_folder/$sketch_name.class ]
 then
