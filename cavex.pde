@@ -13,8 +13,9 @@ PFont f;
 
 void setup() {
   fullScreen();
+  orientation(PORTRAIT);
   textAlign(CENTER, CENTER);
-  f = createFont("Trebuchet MS", 20);
+  f = createFont("Trebuchet_MS.ttf", 20);
   textFont(f);
   n = 6;
   out = new boolean[n];
@@ -57,7 +58,7 @@ void draw() {
   arc(width/2-50, -width/2+50, 80, 80, -PI/2, levelScore*TWO_PI/n - PI/2);
   //Level indicator
   fill(255);
-  text("lvl: " + (n-6), width/2-40, height/2-40);
+  text("lvl: " + (n-6), 0, height/2-200);
   //Player
   drawPoly();
   //Docking disks
