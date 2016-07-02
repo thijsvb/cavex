@@ -1,14 +1,9 @@
-/* @pjs preload="data/robin.png"; */
-
 int n;
 int levelScore;
 int killScore;
 boolean[] out;
 boolean[] mouseOver;
 ship[] ships = new ship[4];
-PImage robin;
-String typed = "";
-String ccKufi = "99991675117102105";
 boolean gDisk, bDisk;
 float gDiskO, bDiskO;
 int[] boomLine = {};
@@ -17,11 +12,10 @@ float[] boomSize = {};
 PFont f;
 
 void setup() {
-  size(600, 600);
+  fullScreen();
   textAlign(CENTER, CENTER);
   f = createFont("Trebuchet MS", 20);
   textFont(f);
-  robin = loadImage("data/robin.png");
   n = 6;
   out = new boolean[n];
   for (int i=0; i!=n; ++i) {
@@ -40,11 +34,6 @@ void setup() {
 void draw() {
   translate(width/2, height/2);
   background(32);
-  if (n-6 == 17) {
-    cursor(robin, robin.width-10, 10);
-  } else {
-    cursor(CROSS);
-  }
   //Field
   fill(0);
   noStroke();
@@ -68,7 +57,7 @@ void draw() {
   arc(width/2-50, -width/2+50, 80, 80, -PI/2, levelScore*TWO_PI/n - PI/2);
   //Level indicator
   fill(255);
-  text("lvl: " + nf(n-6), width/2-40, height/2-40);
+  text("lvl: " + (n-6), width/2-40, height/2-40);
   //Player
   drawPoly();
   //Docking disks
@@ -257,26 +246,6 @@ void mousePressed() {
   }
 }
 
-void keyPressed() {
-  String k = "";
-  if (key == CODED) {
-    typed+=int(keyCode);
-    k += int(keyCode);
-  } else {
-    k += int(key);
-    typed += int(key);
-  }
-  if (typed.length() >= ccKufi.length()) {
-    if (typed.equals(ccKufi)) {
-      n = 23;
-      resetArrays();
-      typed = "";
-    } else {
-      typed = typed.substring(typed.length()-(ccKufi.length()-k.length()));
-    }
-  }
-}
-
 void drawPoly() {
   beginShape();
   noFill();
@@ -292,7 +261,7 @@ void drawPoly() {
     vertex(cos(a)*r, sin(a)*r);
 
     //Set mouseOver
-    PVector m = new PVector(mouseX-width/2, mouseY-width/2);
+    PVector m = new PVector(mouseX-width/2, mouseY-height/2);
     PVector v = new PVector(cos(a), sin(a));
     if (m.mag() <= 300 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
       mouseOver[i] = true;
