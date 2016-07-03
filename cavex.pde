@@ -61,7 +61,7 @@ void draw() {
   ellipse(width/2-width/8-10, -height/2+width/8+10, width/4, width/4);
   //Level indicator
   fill(255);
-  text("lvl: " + (n-6), 0, height/2-width/3);
+  text("lvl: " + (n-6), 0, height/2-width/4);
   //Player
   drawPoly();
   //Docking disks
@@ -91,7 +91,7 @@ void draw() {
   stroke(255, 0, 0);
   if (boomLine.length > 0) {
     for (int i=0; i!=boomLine.length; ++i) {
-      boomSize[i]+=1.5;
+      boomSize[i]+=width/300;
       ellipse(cos(boomLine[i]*TWO_PI/n)*boomDist[i], sin(boomLine[i]*TWO_PI/n)*boomDist[i], boomSize[i], boomSize[i]);
     }
     if (boomSize[0] >= width/20) {
