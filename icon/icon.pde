@@ -1,7 +1,7 @@
 
 void setup() {
   size(192, 192);
-  makeIcon(36);
+  makeIcon(512);
 }
 
 void draw() {
