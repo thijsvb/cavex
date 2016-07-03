@@ -1,8 +1,5 @@
 
 size(600, 600);
-PImage cross = loadImage("cross.png");
-imageMode(CENTER);
-cross.resize(cross.width*3/4, cross.height*3/4);
 PFont f = createFont("Trebuchet MS", 40);
 textFont(f);
 textAlign(CENTER);
@@ -15,7 +12,7 @@ text("Let green ships enter\nwith concave angles", width/4, 170);
 text("Keep red ships out\nwith convex angles", 3*width/4, 170);
 text("Letting green ships enter will\nfill up your level meter\nWhen it's full you level up\nand get a new vertex", width/4, 320);
 text("Letting red ships enter will\nfill up your kill meter\nWhen it's full you level down\nand lose a vertex", 3*width/4, 320);
-text("Click on a vertex to move it in/out", width/2, height-20);
+text("Tap on a vertex to move it in/out", width/2, height-20);
 
 
 noStroke();
@@ -58,7 +55,6 @@ ellipse(3*width/4, 100, 15, 15);
 noStroke();
 fill(0, 255, 255, 128);
 ellipse(width/2, 500, 10, 10);
-image(cross, width/2-5, 510);
 
 save("guide.png");
 exit();
