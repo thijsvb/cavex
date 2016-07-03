@@ -1,0 +1,32 @@
+size(1024, 500);
+background(32);
+noStroke();
+fill(0);
+ellipse(width/2, 0, 2*width/3, 2*width/3);
+stroke(32);
+noFill();
+strokeWeight(3);
+pushMatrix();
+translate(width/2, 0);
+line(cos(PI/3)*500, sin(PI/3)*500, 0, 0);
+line(cos(2*PI/3)*500, sin(2*PI/3)*500, 0, 0);
+ellipse(0, 0, 90, 90);
+ellipse(0, 0, 300, 300);
+stroke(255);
+line(-150, 0, cos(2*PI/3)*150, sin(2*PI/3)*150);
+line(150, 0, cos(PI/3)*150, sin(PI/3)*150);
+line(cos(PI/3)*150, sin(PI/3)*150, cos(2*PI/3)*150, sin(2*PI/3)*150);
+stroke(0,255,0);
+ellipse(cos(PI/3)*230, sin(PI/3)*230, 50, 50);
+
+popMatrix();
+PFont f = createFont("Trebuchet MS", 20);
+textFont(f);
+textAlign(CENTER, CENTER);
+textSize(100);
+fill(255);
+text("cavex:", width/2, height/2);
+text("a polygon game",width/2, 3*height/4);
+
+save("feature.png");
+exit();
