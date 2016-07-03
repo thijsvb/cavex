@@ -17,6 +17,8 @@ void setup() {
   textAlign(CENTER, CENTER);
   f = createFont("Trebuchet_MS.ttf", 20);
   textFont(f);
+  textSize(width*0.15);
+  strokeWeight(3);
   n = 6;
   out = new boolean[n];
   for (int i=0; i!=n; ++i) {
@@ -45,20 +47,21 @@ void draw() {
     line(0, 0, cos(a)*width/2, sin(a)*width/2);
   }
   noFill();
-  ellipse(0, 0, 60, 60);
-  ellipse(0, 0, 200, 200);
+  ellipse(0, 0, width/10, width/10);
+  ellipse(0, 0, width/3, width/3);
   //Kill and level meters
-  stroke(255);
-  ellipse(-width/2+50, -width/2+50, 80, 80);
-  ellipse(width/2-50, -width/2+50, 80, 80);
   noStroke();
   fill(255, 0, 0);
-  arc(-width/2+50, -width/2+50, 80, 80, -PI/2, killScore*TWO_PI/n - PI/2);
+  arc(-width/2+width/8+10, -height/2+width/8+10, width/4, width/4, -PI/2, killScore*TWO_PI/n - PI/2);
   fill(0, 255, 0);
-  arc(width/2-50, -width/2+50, 80, 80, -PI/2, levelScore*TWO_PI/n - PI/2);
+  arc(width/2-width/8-10, -height/2+width/8+10, width/4, width/4, -PI/2, levelScore*TWO_PI/n - PI/2);
+  noFill();
+  stroke(255);
+  ellipse(-width/2+width/8+10, -height/2+width/8+10, width/4, width/4);
+  ellipse(width/2-width/8-10, -height/2+width/8+10, width/4, width/4);
   //Level indicator
   fill(255);
-  text("lvl: " + (n-6), 0, height/2-200);
+  text("lvl: " + (n-6), 0, height/2-width/3);
   //Player
   drawPoly();
   //Docking disks
@@ -67,7 +70,7 @@ void draw() {
     if (gDiskO < 20) {
       ++gDiskO;
       fill(0, 255, 0, map(gDiskO, 0, 20, 255, 0));
-      ellipse(0, 0, 60, 60);
+      ellipse(0, 0, width/10, width/10);
     } else {
       gDiskO = 0;
       gDisk = false;
@@ -77,7 +80,7 @@ void draw() {
     if (bDiskO < 20) {
       ++bDiskO;
       fill(255, 0, 0, map(bDiskO, 0, 20, 255, 0));
-      ellipse(0, 0, 60, 60);
+      ellipse(0, 0, width/10, width/10);
     } else {
       bDiskO = 0;
       bDisk = false;
@@ -91,7 +94,7 @@ void draw() {
       boomSize[i]+=1.5;
       ellipse(cos(boomLine[i]*TWO_PI/n)*boomDist[i], sin(boomLine[i]*TWO_PI/n)*boomDist[i], boomSize[i], boomSize[i]);
     }
-    if (boomSize[0] >= 30) {
+    if (boomSize[0] >= width/20) {
       boomLine = subset(boomLine, 1);
       boomDist = subset(boomDist, 1);
       boomSize = subset(boomSize, 1);
@@ -103,9 +106,9 @@ void draw() {
   for (int i=0; i!=n; ++i) {
     float a = i*TWO_PI/n;
     if (mouseOver[i] && out[i]) {
-      ellipse(cos(a)*100, sin(a)*100, 10, 10);
+      ellipse(cos(a)*width/6, sin(a)*width/6, 10, 10);
     } else if (mouseOver[i] && !out[i]) {
-      ellipse(cos(a)*30, sin(a)*30, 10, 10);
+      ellipse(cos(a)*width/20, sin(a)*width/20, 10, 10);
     }
   }
   //Ships
@@ -115,31 +118,31 @@ void draw() {
       ships[i].display();
     }
     //Collision
-    if (ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //good ship at out vertex will never result in a point
+    if (ships[i].good && ships[i].dist <= width/6 && out[ships[i].line]) {    //good ship at out vertex will never result in a point
       boomLine = append(boomLine, ships[i].line);
-      boomDist = append(boomDist, 100);
+      boomDist = append(boomDist, width/6);
       boomSize = append(boomSize, 0);
       resetShip(i);
     }
 
-    if (ships[i].good && ships[i].dist <= 30) {                          //good ship at in vertex will result in a point if the angle is concave
+    if (ships[i].good && ships[i].dist <= width/20) {                          //good ship at in vertex will result in a point if the angle is concave
       PVector a = new PVector(cos(ships[i].line*TWO_PI/n), sin(ships[i].line*TWO_PI/n));
       if (out[ships[i].line]) {
-        a.setMag(100);
+        a.setMag(width/6);
       } else {
-        a.setMag(30);
+        a.setMag(width/20);
       }
       PVector b = new PVector(cos(((ships[i].line+1)%n) *TWO_PI/n), sin(((ships[i].line+1)%n) *TWO_PI/n));
       if (out[(ships[i].line+1)%n]) {
-        b.setMag(100);
+        b.setMag(width/6);
       } else {
-        b.setMag(30);
+        b.setMag(width/20);
       }
       PVector c = new PVector(cos(((ships[i].line+(n-1))%n) *TWO_PI/n), sin(((ships[i].line+(n-1))%n) *TWO_PI/n));
       if (out[(ships[i].line+(n-1))%n]) {
-        c.setMag(100);
+        c.setMag(width/6);
       } else {
-        c.setMag(30);
+        c.setMag(width/20);
       }
 
       PVector d;
@@ -155,38 +158,38 @@ void draw() {
         gDisk = true;
       } else {
         boomLine = append(boomLine, ships[i].line);
-        boomDist = append(boomDist, 30);
+        boomDist = append(boomDist, width/20);
         boomSize = append(boomSize, 0);
       }
 
       resetShip(i);
     }
 
-    if (!ships[i].good && ships[i].dist <= 100 && out[ships[i].line]) {    //bad ship at out vertex will never result in a kill point
+    if (!ships[i].good && ships[i].dist <= width/6 && out[ships[i].line]) {    //bad ship at out vertex will never result in a kill point
       boomLine = append(boomLine, ships[i].line);
-      boomDist = append(boomDist, 100);
+      boomDist = append(boomDist, width/6);
       boomSize = append(boomSize, 0);
       resetShip(i);
     }
 
-    if (!ships[i].good && ships[i].dist <= 30) {      //bad ship at in vertex will only result in kill point if the angle is concave
+    if (!ships[i].good && ships[i].dist <= width/20) {      //bad ship at in vertex will only result in kill point if the angle is concave
       PVector a = new PVector(cos(ships[i].line*TWO_PI/n), sin(ships[i].line*TWO_PI/n));
       if (out[ships[i].line]) {
-        a.setMag(100);
+        a.setMag(width/6);
       } else {
-        a.setMag(30);
+        a.setMag(width/20);
       }
       PVector b = new PVector(cos(((ships[i].line+1)%n) *TWO_PI/n), sin(((ships[i].line+1)%n) *TWO_PI/n));
       if (out[(ships[i].line+1)%n]) {
-        b.setMag(100);
+        b.setMag(width/6);
       } else {
-        b.setMag(30);
+        b.setMag(width/20);
       }
       PVector c = new PVector(cos(((ships[i].line+(n-1))%n) *TWO_PI/n), sin(((ships[i].line+(n-1))%n) *TWO_PI/n));
       if (out[(ships[i].line+(n-1))%n]) {
-        c.setMag(100);
+        c.setMag(width/6);
       } else {
-        c.setMag(30);
+        c.setMag(width/20);
       }
 
       PVector d;
@@ -202,7 +205,7 @@ void draw() {
         bDisk = true;
       } else {
         boomLine = append(boomLine, ships[i].line);
-        boomDist = append(boomDist, 30);
+        boomDist = append(boomDist, width/20);
         boomSize = append(boomSize, 0);
       }
 
@@ -255,16 +258,16 @@ void drawPoly() {
     float a = i*TWO_PI/n;
     float r;
     if (out[i]) {
-      r = 100;
+      r = width/6;
     } else {
-      r = 30;
+      r = width/20;
     }
     vertex(cos(a)*r, sin(a)*r);
 
     //Set mouseOver
     PVector m = new PVector(mouseX-width/2, mouseY-height/2);
     PVector v = new PVector(cos(a), sin(a));
-    if (m.mag() <= 300 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
+    if (m.mag() <= width/2 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
       mouseOver[i] = true;
     } else {
       mouseOver[i] = false;
@@ -335,7 +338,7 @@ class ship {
         noStroke();
         fill(0, 255, 0);
       }
-      ellipse(cos(line*TWO_PI/n)*(dist+10), sin(line*TWO_PI/n)*(dist+10), 20, 20);
+      ellipse(cos(line*TWO_PI/n)*(dist+10), sin(line*TWO_PI/n)*(dist+10), width/30, width/30);
     } else {
       if (master) {
         fill(0);
@@ -345,13 +348,13 @@ class ship {
         fill(255, 0, 0);
       }
       triangle(cos(line*TWO_PI/n)*dist, sin(line*TWO_PI/n)*dist, 
-        cos(line*TWO_PI/n)*(dist+30) + cos((line*TWO_PI/n)+PI/2)*10, sin(line*TWO_PI/n)*(dist+30) + sin((line*TWO_PI/n)+PI/2)*10, 
-        cos(line*TWO_PI/n)*(dist+30) + cos((line*TWO_PI/n)-PI/2)*10, sin(line*TWO_PI/n)*(dist+30) + sin((line*TWO_PI/n)-PI/2)*10);
+        cos(line*TWO_PI/n)*(dist+width/20) + cos((line*TWO_PI/n)+PI/2)*width/60, sin(line*TWO_PI/n)*(dist+width/20) + sin((line*TWO_PI/n)+PI/2)*width/60, 
+        cos(line*TWO_PI/n)*(dist+width/20) + cos((line*TWO_PI/n)-PI/2)*width/60, sin(line*TWO_PI/n)*(dist+width/20) + sin((line*TWO_PI/n)-PI/2)*width/60);
     }
   }
 
   void move() {
-    dist -= 2;
+    dist -= width/300;
   }
 
   void reset(float d) {
