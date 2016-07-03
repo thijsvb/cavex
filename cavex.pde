@@ -1,3 +1,8 @@
+import ketai.ui.*;
+import android.view.MotionEvent;
+
+KetaiGesture gesture;
+
 int n;
 int levelScore;
 int killScore;
@@ -32,6 +37,8 @@ void setup() {
     float m = random(5);
     ships[i] = new ship((int)(random(0, n)), g>=2, m>=4, width/2 + i*width/3);
   }
+
+  gesture = new KetaiGesture(this);
 }
 
 void draw() {
@@ -106,9 +113,9 @@ void draw() {
   for (int i=0; i!=n; ++i) {
     float a = i*TWO_PI/n;
     if (mouseOver[i] && out[i]) {
-      ellipse(cos(a)*width/6, sin(a)*width/6, 10, 10);
+      ellipse(cos(a)*width/6, sin(a)*width/6, width/60, width/60);
     } else if (mouseOver[i] && !out[i]) {
-      ellipse(cos(a)*width/20, sin(a)*width/20, 10, 10);
+      ellipse(cos(a)*width/20, sin(a)*width/20, width/60, width/60);
     }
   }
   //Ships
@@ -242,8 +249,26 @@ void resetArrays() {
   }
 }
 
-void mousePressed() {
+//Magic Android/Ketai stuff from a book
+public boolean surfaceTouchEvent(MotionEvent event) {
+  super.surfaceTouchEvent(event);
+  return gesture.surfaceTouchEvent(event);
+}
+
+//Now do something when you tap the screen
+void onTap(float x, float y) {  
   for (int i=0; i!=n; ++i) {
+    //Set mouseOver
+    float a = i*TWO_PI/n;
+    PVector m = new PVector(x-width/2, y-height/2);
+    PVector v = new PVector(cos(a), sin(a));
+
+    if (m.mag() <= width/2 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
+      mouseOver[i] = true;
+    } else {
+      mouseOver[i] = false;
+    }
+
     if (mouseOver[i]) {
       out[i] = !out[i];
     }
@@ -263,15 +288,6 @@ void drawPoly() {
       r = width/20;
     }
     vertex(cos(a)*r, sin(a)*r);
-
-    //Set mouseOver
-    PVector m = new PVector(mouseX-width/2, mouseY-height/2);
-    PVector v = new PVector(cos(a), sin(a));
-    if (m.mag() <= width/2 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
-      mouseOver[i] = true;
-    } else {
-      mouseOver[i] = false;
-    }
   }
   endShape(CLOSE);
 }
