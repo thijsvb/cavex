@@ -15,6 +15,8 @@ int[] boomLine = {};
 float[] boomDist = {};
 float[] boomSize = {};
 PFont f;
+PImage guideImg;
+boolean guide = false;
 
 void setup() {
   fullScreen();
@@ -22,7 +24,6 @@ void setup() {
   textAlign(CENTER, CENTER);
   f = createFont("Trebuchet_MS.ttf", 20);
   textFont(f);
-  textSize(width*0.15);
   strokeWeight(3);
   n = 6;
   out = new boolean[n];
@@ -38,10 +39,16 @@ void setup() {
     ships[i] = new ship((int)(random(0, n)), g>=2, m>=4, width/2 + i*width/3);
   }
 
+  guideImg = loadImage("guide.png");
+  guideImg.resize(width, width);
   gesture = new KetaiGesture(this);
 }
 
 void draw() {
+  if (guide) {
+    showGuide();
+    return;
+  }
   translate(width/2, height/2);
   background(32);
   //Field
@@ -68,7 +75,10 @@ void draw() {
   ellipse(width/2-width/8-10, -height/2+width/8+10, width/4, width/4);
   //Level indicator
   fill(255);
+  textSize(width*0.15);
   text("lvl: " + (n-6), 0, height/2-width/4);
+  textSize(width/20);
+  text("help", -width/2+width/15, height/2-width/20);
   //Player
   drawPoly();
   //Docking disks
@@ -257,21 +267,27 @@ public boolean surfaceTouchEvent(MotionEvent event) {
 
 //Now do something when you tap the screen
 void onTap(float x, float y) {  
-  for (int i=0; i!=n; ++i) {
-    //Set mouseOver
-    float a = i*TWO_PI/n;
-    PVector m = new PVector(x-width/2, y-height/2);
-    PVector v = new PVector(cos(a), sin(a));
+  if (!guide) {
+    for (int i=0; i!=n; ++i) {
+      //Set mouseOver
+      float a = i*TWO_PI/n;
+      PVector m = new PVector(x-width/2, y-height/2);
+      PVector v = new PVector(cos(a), sin(a));
 
-    if (m.mag() <= width/2 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
-      mouseOver[i] = true;
-    } else {
-      mouseOver[i] = false;
-    }
+      if (m.mag() <= width/2 && (realAngleBetween(v, m) < PI/n || abs(realAngleBetween(v, m)-TWO_PI) < PI/n)) {
+        mouseOver[i] = true;
+      } else {
+        mouseOver[i] = false;
+      }
 
-    if (mouseOver[i]) {
-      out[i] = !out[i];
+      if (mouseOver[i]) {
+        out[i] = !out[i];
+      }
     }
+  }
+
+  if (dist(x, y, width/15, height-width/20) < width/8) {
+    guide = !guide;
   }
 }
 
@@ -386,4 +402,12 @@ class ship {
     line = (int)(random(0, n));
     dist = d;
   }
+}
+
+void showGuide() {
+  background(32);
+  image(guideImg, 0, height/2-width/2);
+  fill(255);
+  textSize(width/20);
+  text("play", width/15, height-width/20);
 }
