@@ -1,4 +1,5 @@
 #!/bin/bash
+set -v
 zipfile="Ketai.zip"
 
 if [ ! -e $zipfile ]
