@@ -1,12 +1,14 @@
 #!/bin/bash
 set -v
-zipfile="Ketai.zip"
+zipfile="ketai.zip"
 
 if [ ! -e $zipfile ]
 then
-  wget https://github.com/ketai/ketai/raw/master/downloads/$zipfile
+  wget https://ketailibrary.org/$zipfile
 fi
 
-tar zxvf $zipfile #> /dev/null
+tar zxvf $zipfile
 
-cp -a $zipfile/Ketai/. sketchbook/libraries/
+mkdir sketchbook
+mkdir sketchbook/libraries
+cp -a Ketai/. sketchbook/libraries/
