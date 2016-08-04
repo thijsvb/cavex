@@ -11,6 +11,6 @@ unzip $zipfile > /dev/null
 
 sudo mkdir /sketchbook
 sudo mkdir /sketchbook/libraries
-cp -a Ketai/. /sketchbook/libraries/
+sudo cp -a Ketai/. /sketchbook/libraries/
 cd sketchbook/libraries
 ls
