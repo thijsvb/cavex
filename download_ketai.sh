@@ -9,4 +9,6 @@ fi
 
 unzip $zipfile
 
-cp -a Ketai/. /processing-3.1.1/sketchbook/libraries/
+mkdir ~/sketchbook
+mkdir ~/sketchbook/libraries
+cp -a Ketai/. ~/sketchbook/libraries/
