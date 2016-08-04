@@ -9,8 +9,8 @@ fi
 
 unzip $zipfile > /dev/null
 
-sudo mkdir ~/sketchbook
-sudo mkdir ~/sketchbook/libraries
+#sudo mkdir ~/sketchbook
+sudo mkdir ~/sketchbook/libraries/Ketai
 sudo cp -a Ketai/. ~/sketchbook/libraries/
 cd ~/sketchbook/libraries
 ls
