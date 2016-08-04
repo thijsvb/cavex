@@ -8,6 +8,10 @@ script:
 
 after_failure:
   - find . | egrep "processing-java"
+  - find . | egrep "sketchbook"
+  - find . | egrep "libraries"
 
 after_success:
   - find . | egrep "processing-java"
+  - find . | egrep "sketchbook"
+  - find . | egrep "libraries"
