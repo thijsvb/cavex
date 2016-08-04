@@ -4,7 +4,7 @@ zipfile="ketai.zip"
 
 if [ ! -e $zipfile ]
 then
-  wget https://ketailibrary.org/$zipfile
+  wget http://ketailibrary.org/$zipfile
 fi
 
 tar zxvf $zipfile
