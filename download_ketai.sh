@@ -7,7 +7,7 @@ then
   wget http://ketailibrary.org/$zipfile
 fi
 
-tar zxvf $zipfile
+unzip $zipfile
 
 mkdir ~/sketchbook
 mkdir ~/sketchbook/libraries
