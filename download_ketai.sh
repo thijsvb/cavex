@@ -9,6 +9,6 @@ fi
 
 tar zxvf $zipfile
 
-mkdir sketchbook
-mkdir sketchbook/libraries
-cp -a Ketai/. sketchbook/libraries/
+mkdir ~/sketchbook
+mkdir ~/sketchbook/libraries
+cp -a Ketai/. ~/sketchbook/libraries/
