@@ -12,7 +12,5 @@ unzip $zipfile
 mkdir /sketchbook
 mkdir /sketchbook/libraries
 cp -a Ketai/. /sketchbook/libraries/
-cd sketchbook
-ls
-cd libraries
+cd sketchbook/libraries
 ls
