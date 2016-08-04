@@ -9,9 +9,9 @@ fi
 
 unzip $zipfile
 
-mkdir ~/sketchbook
-mkdir ~/sketchbook/libraries
-cp -a Ketai/. ~/sketchbook/libraries/
+mkdir /sketchbook
+mkdir /sketchbook/libraries
+cp -a Ketai/. /sketchbook/libraries/
 cd sketchbook
 ls
 cd libraries
